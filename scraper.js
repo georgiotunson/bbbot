@@ -6,9 +6,7 @@ const axios = require("axios");
   try {
     const targetString = 'div[class="fulfillment-add-to-cart-button"] > div > div > button';
     const urls = [
-      "https://www.bestbuy.com/site/sony-playstation-5-console/6426149.p?skuId=6426149&intl=nosplash",
-      "https://www.bestbuy.com/site/microsoft-xbox-elite-wireless-controller-series-2-for-xbox-one-xbox-series-x-and-xbox-series-s-black/6352703.p?skuId=6352703&intl=nosplash",
-      "https://www.bestbuy.com/site/microsoft-xbox-one-s-1tb-console-bundle-white/6415222.p?skuId=6415222&intl=nosplash",
+      "https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?acampID=0&cmp=RMX&loc=Hatch&ref=198&skuId=6439402&intl=nosplash"
     ];
 
     for (let i = 0; i < urls.length; i++) {
