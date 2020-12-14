@@ -1,0 +1,24 @@
+{
+  "name": "bbbot",
+  "version": "1.0.0",
+  "description": "An availability monitor and purchaser for frequently scalped products sold online.",
+  "main": "checkAvailForever.sh",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgiotunson/bbbot.git"
+  },
+  "author": "Georgio Tunson",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/georgiotunson/bbbot/issues"
+  },
+  "homepage": "https://github.com/georgiotunson/bbbot#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "cheerio": "^1.0.0-rc.3",
+    "puppeteer": "^5.5.0"
+  }
+}
