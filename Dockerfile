@@ -21,9 +21,9 @@ COPY ./package.json /app
 RUN npm install 
 
 COPY . /app
-COPY ./checkAvailForever.sh /usr/local/bin/checkAvailForever.sh
-RUN /bin/chmod +x /usr/local/bin/checkAvailForever.sh
-RUN cat /usr/local/bin/checkAvailForever.sh
+COPY ./bbbot-entrypoint.sh /usr/local/bin/bbbot-entrypoint.sh
+RUN /bin/chmod +x /usr/local/bin/bbbot-entrypoint.sh
+RUN cat /usr/local/bin/bbbot-entrypoint.sh
 
 #CMD ["pass args to entrypoint here"]
-ENTRYPOINT ["checkAvailForever.sh"]
+ENTRYPOINT ["bbbot-entrypoint.sh"]
