@@ -21,7 +21,9 @@ COPY ./package.json ./app
 RUN npm install 
 
 COPY . /app
-RUN /bin/chmod +x ./checkAvailForever.sh
+COPY ./checkAvailForever.sh /usr/local/bin/checkAvailForever.sh
+RUN /bin/chmod +x /usr/local/bin/checkAvailForever.sh
+RUN cat /usr/local/bin/checkAvailForever.sh
 
 #CMD ["pass args to entrypoint here"]
 ENTRYPOINT ["checkAvailForever.sh"]
