@@ -17,7 +17,7 @@ FROM node:current-alpine3.10
         #/usr/share/doc-base
 
 WORKDIR /app
-COPY ./package.json ./app
+COPY ./package.json /app
 RUN npm install 
 
 COPY . /app
