@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Config
+config.js
+
 # Log Imgaes
 example.png
 log.png
