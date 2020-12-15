@@ -117,7 +117,6 @@ const userInfo = ${util.inspect(validatedInfo)}
 module.exports = {
   userInfo,
 }`;
-            console.log(bigString);
             fs.writeFileSync(__dirname + "/config.js", configString, "utf-8");
         }
         rl.close();
