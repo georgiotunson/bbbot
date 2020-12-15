@@ -1,5 +1,6 @@
 "user strict";
 const puppeteer = require("puppeteer");
+const config = require("./config");
 
 // fills form fields using user info
 const fillForm = async (fields, userInfo, page) => {
@@ -10,6 +11,8 @@ const fillForm = async (fields, userInfo, page) => {
     if (fieldObj.kind === "type") {
       const input = await page.$(fieldObj.selector);
       await input.click({ clickCount: 3 });
+      console.log(fieldObj.selector)
+      console.log(userInfo[field])
       await page.type(fieldObj.selector, userInfo[field] /*, { delay: 720 }*/);
     } else if (fieldObj.kind === "select") {
       await page.select(fieldObj.selector, userInfo[field]);
@@ -21,13 +24,14 @@ const fillForm = async (fields, userInfo, page) => {
 const makePurchase = async () => {
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       defaultViewport: null,
       args: ["--window-size=1920,1080"],
     });
     const page = await browser.newPage();
     await page.goto(
-      "https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?acampID=0&cmp=RMX&loc=Hatch&ref=198&skuId=6439402&intl=nosplash"
+      config.userInfo.targetPurchaseURLs[0]
+      //"https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?acampID=0&cmp=RMX&loc=Hatch&ref=198&skuId=6439402&intl=nosplash"
       //"https://www.bestbuy.com/site/microsoft-xbox-elite-wireless-controller-series-2-for-xbox-one-xbox-series-x-and-xbox-series-s-black/6352703.p?skuId=6352703&intl=nosplash"
     );
 
@@ -52,7 +56,10 @@ const makePurchase = async () => {
     // update zip code
     await page.click('button[class="btn-default-link change-zipcode-link"]');
     await page.waitForSelector('div[class="update-zip__input "] > input[id="location"]');
-    await page.type('div[class="update-zip__input "] > input[id="location"]', "92530");
+    await page.type(
+      'div[class="update-zip__input "] > input[id="location"]',
+      config.userInfo.shippingAddr.zipcode
+    );
     await page.waitForSelector(
       'div[class="update-zip__input-group"] > div > button[class="btn btn-secondary btn-md"]'
     );
@@ -82,14 +89,14 @@ const makePurchase = async () => {
 
     // shipping address
     const shippingAddr = {
-      firstName: "Georgio",
-      lastName: "Tunson",
-      state: "CA",
-      street: "218 Broadway Street",
-      city: "Lake Elsinore",
-      zipcode: "92530",
-      email: "Tunson1989@gmail.com",
-      phone: "5622835102",
+      firstName: config.userInfo.shippingAddr.firstName,
+      lastName: config.userInfo.shippingAddr.lastName,
+      state: config.userInfo.shippingAddr.state,
+      street: config.userInfo.shippingAddr.street,
+      city: config.userInfo.shippingAddr.city,
+      zipcode: config.userInfo.shippingAddr.zipcode,
+      email: config.userInfo.constactInfo.email,
+      phone: config.userInfo.constactInfo.phone,
     };
 
     // shipping address form
@@ -114,36 +121,39 @@ const makePurchase = async () => {
     ]);
 
     // first enter credit card num to spawn below fields
-    await page.type('[id="optimized-cc-card-number"]', "379840003371004");
+    await page.type(
+      '[id="optimized-cc-card-number"]',
+      config.userInfo.paymentInfo.creditCardNumber
+    );
     // below fields only show after entering credit card num
     await page.waitForSelector(
       'label[id="credit-card-expiration-month"] > div > div > select[class="c-dropdown v-medium c-dropdown v-medium smart-select"]'
     );
     await page.select(
       'label[id="credit-card-expiration-month"] > div > div > select[class="c-dropdown v-medium c-dropdown v-medium smart-select"]',
-      "06"
+      config.userInfo.paymentInfo.creditCardExpMonth
     );
     await page.waitForSelector(
       'label[id="credit-card-expiration-year"] > div > div > select[class="c-dropdown v-medium c-dropdown v-medium smart-select"]'
     );
     await page.select(
       'label[id="credit-card-expiration-year"] > div > div > select[class="c-dropdown v-medium c-dropdown v-medium smart-select"]',
-      "2025"
+      config.userInfo.paymentInfo.creditCardExpYear
     );
     await page.waitForSelector('[id="credit-card-cvv"]');
-    await page.type('[id="credit-card-cvv"]', "7453");
+    await page.type('[id="credit-card-cvv"]', config.userInfo.paymentInfo.creditCardSecCode);
 
     // don't use autocomplete for address
     await page.click('div[class="clearFloat"] > div[class="autocomplete__wrapper"] > button');
 
     // billing address
     const billingAddr = {
-      firstName: "Georgio",
-      lastName: "Tunson",
-      state: "CA",
-      street: "218 Broadway Street",
-      city: "Lake Elsinore",
-      zipcode: "92530",
+      firstName: config.userInfo.billingAddr.firstName,
+      lastName: config.userInfo.billingAddr.lastName,
+      state: config.userInfo.billingAddr.state,
+      street: config.userInfo.billingAddr.street,
+      city: config.userInfo.billingAddr.city,
+      zipcode: config.userInfo.billingAddr.zipcode,
     };
 
     // billing address form

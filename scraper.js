@@ -19,6 +19,8 @@ const purchaser = require("./purchaser");
 
       if (status === "Sold Out") {
         console.log(`[${new Date()}] ${url}: ${status}`);
+        await purchaser.makePurchase();
+        process.exit(1);
       } else if (status === "Add to Cart") {
         console.log(`[${new Date()}] ${url}: ${status}`);
         await purchaser.makePurchase();

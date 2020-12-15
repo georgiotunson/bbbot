@@ -1,5 +1,7 @@
 "use strict";
 const readline = require("readline");
+const fs = require("fs");
+const util = require("util");
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -57,13 +59,21 @@ const validateInfo = (question, depth) => {
 
 const createInfoObj = async () => {
     return {
-        shippingInfo: {
+        shippingAddr: {
             firstName: await getUserInput("What is your shipping first name? "),
             lastName: await getUserInput("What is your shipping last name? "),
             state: await getUserInput("What is your shipping state? "),
             city: await getUserInput("What is your shipping city? "),
             zipcode: await getUserInput("What is your shipping zipcode? "),
             street: await getUserInput("What is your shipping street address? "),
+        },
+        billingAddr: {
+            firstName: await getUserInput("What is your billing first name? "),
+            lastName: await getUserInput("What is your billing last name? "),
+            state: await getUserInput("What is your billing state? "),
+            city: await getUserInput("What is your billing city? "),
+            zipcode: await getUserInput("What is your billing zipcode? "),
+            street: await getUserInput("What is your billing street address? "),
         },
         constactInfo: {
             email: await getUserInput("What is your email? "),
@@ -99,8 +109,16 @@ const createInfoObj = async () => {
             console.info("Maximum tries exceeded!");
             process.exit(1);
         } else {
-            //write to file
-            console.log(validatedInfo);
+            // generate config
+            const configString = `"user strict";
+
+const userInfo = ${util.inspect(validatedInfo)}
+
+module.exports = {
+  userInfo,
+}`;
+            console.log(bigString);
+            fs.writeFileSync(__dirname + "/config.js", configString, "utf-8");
         }
         rl.close();
     } catch (error) {
