@@ -18,16 +18,17 @@ const fillForm = async (fields, userInfo, page) => {
 };
 
 // automates page navigation and purchase
-(async () => {
+const makePurchase = async () => {
   try {
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       defaultViewport: null,
       args: ["--window-size=1920,1080"],
     });
     const page = await browser.newPage();
     await page.goto(
-      "https://www.bestbuy.com/site/microsoft-xbox-elite-wireless-controller-series-2-for-xbox-one-xbox-series-x-and-xbox-series-s-black/6352703.p?skuId=6352703&intl=nosplash"
+      "https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?acampID=0&cmp=RMX&loc=Hatch&ref=198&skuId=6439402&intl=nosplash"
+      //"https://www.bestbuy.com/site/microsoft-xbox-elite-wireless-controller-series-2-for-xbox-one-xbox-series-x-and-xbox-series-s-black/6352703.p?skuId=6352703&intl=nosplash"
     );
 
     // add item to cart & wait for go to cart button
@@ -51,7 +52,7 @@ const fillForm = async (fields, userInfo, page) => {
     // update zip code
     await page.click('button[class="btn-default-link change-zipcode-link"]');
     await page.waitForSelector('div[class="update-zip__input "] > input[id="location"]');
-    await page.type('div[class="update-zip__input "] > input[id="location"]', "90034");
+    await page.type('div[class="update-zip__input "] > input[id="location"]', "92530");
     await page.waitForSelector(
       'div[class="update-zip__input-group"] > div > button[class="btn btn-secondary btn-md"]'
     );
@@ -81,14 +82,14 @@ const fillForm = async (fields, userInfo, page) => {
 
     // shipping address
     const shippingAddr = {
-      firstName: "Bill",
-      lastName: "Gates",
+      firstName: "Georgio",
+      lastName: "Tunson",
       state: "CA",
-      street: "2823 S Corning St",
-      city: "Los Angeles",
-      zipcode: "90034",
-      email: "iCow23@yahoo.com",
-      phone: "3102834102",
+      street: "218 Broadway Street",
+      city: "Lake Elsinore",
+      zipcode: "92530",
+      email: "Tunson1989@gmail.com",
+      phone: "5622835102",
     };
 
     // shipping address form
@@ -113,32 +114,32 @@ const fillForm = async (fields, userInfo, page) => {
     ]);
 
     // first enter credit card num to spawn below fields
-    await page.type('[id="optimized-cc-card-number"]', "4815820130002525");
+    await page.type('[id="optimized-cc-card-number"]', "379840003371004");
     // below fields only show after entering credit card num
     await page.waitForSelector(
       'label[id="credit-card-expiration-month"] > div > div > select[class="c-dropdown v-medium c-dropdown v-medium smart-select"]'
     );
     await page.select(
       'label[id="credit-card-expiration-month"] > div > div > select[class="c-dropdown v-medium c-dropdown v-medium smart-select"]',
-      "04"
+      "06"
     );
     await page.waitForSelector(
       'label[id="credit-card-expiration-year"] > div > div > select[class="c-dropdown v-medium c-dropdown v-medium smart-select"]'
     );
     await page.select(
       'label[id="credit-card-expiration-year"] > div > div > select[class="c-dropdown v-medium c-dropdown v-medium smart-select"]',
-      "2021"
+      "2025"
     );
     await page.waitForSelector('[id="credit-card-cvv"]');
-    await page.type('[id="credit-card-cvv"]', "598");
+    await page.type('[id="credit-card-cvv"]', "7453");
 
     // don't use autocomplete for address
     await page.click('div[class="clearFloat"] > div[class="autocomplete__wrapper"] > button');
 
     // billing address
     const billingAddr = {
-      firstName: "Bill",
-      lastName: "Gates",
+      firstName: "Georgio",
+      lastName: "Tunson",
       state: "CA",
       street: "218 Broadway Street",
       city: "Lake Elsinore",
@@ -171,4 +172,8 @@ const fillForm = async (fields, userInfo, page) => {
   } catch (error) {
     console.log(error);
   }
-})();
+};
+
+module.exports = {
+  makePurchase,
+};
