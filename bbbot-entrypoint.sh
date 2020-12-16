@@ -2,7 +2,7 @@
 set -e
 
 while true; do
-  sleep 1 &
+  sleep 10 &
     node scraper.js
   wait # for sleep
 done
